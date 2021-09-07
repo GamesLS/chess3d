@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab23f0225cd28e741935b4e09dfcf6f1, type: 3}
+  m_Name: ChessCell
+  m_EditorClassIdentifier: 
+  _activeWhite: {fileID: 2100000, guid: a0c5fe5cb194ac244b7173c6d27ac46f, type: 2}
+  _activeHoverWhite: {fileID: 2100000, guid: cbb6db6f0fabf9048aff66ad20a0485f, type: 2}
+  _activeBlack: {fileID: 2100000, guid: b33cd3a9ddcf3f545ab9943f498ff7a2, type: 2}
+  _activeHoverBlack: {fileID: 2100000, guid: e87cfd54cc0653e4da6fe4b414425b12, type: 2}
+  _white: {fileID: 2100000, guid: 73043ecee62571a47850ea91d74aceab, type: 2}
+  _black: {fileID: 2100000, guid: 28dc362f924d30c4fa1aa98c861a0244, type: 2}
