@@ -1,14 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CellGFX : MonoBehaviour
 {
-    [SerializeField] Renderer _renderer;
-    [SerializeField] CellMaterialData _materials;
-    Material _nativeMaterial;
-
-    private void Start()
+    void Start()
     {
         _nativeMaterial = _renderer.material;
     }
@@ -39,4 +33,10 @@ public class CellGFX : MonoBehaviour
         else
             _renderer.material = _materials._activeWhite;
     }
+    
+    
+    
+    [SerializeField] Renderer _renderer;
+    [SerializeField] CellMaterialData _materials;
+    Material _nativeMaterial;
 }
