@@ -14,8 +14,37 @@ public abstract class BasePossibleMovesCalculator : IPossibleMovesCalculator
     {
         if (_gameBoard.IsMoveAvailable(move, unit)
             && _gameBoard.GetCell(move).IsOccupied()
-            && (_gameBoard.GetCell(move).GetUnit().UnitType != unit.UnitType))
+            && (_gameBoard.GetCell(move).GetUnit().UnitTeam != unit.UnitTeam))
             listOfMoves.Add(move);
+    }
+
+    protected List<Vector2Int> DeleteRestricted(Unit unit, List<Vector2Int> possibleMoves)
+    {
+        List<Vector2Int> availableMoves = new List<Vector2Int>();
+        availableMoves.AddRange(possibleMoves);
+        foreach (Vector2Int move in possibleMoves)
+        {
+            if (!_gameBoard.IsMoveAvailable(move, unit))
+                availableMoves.Remove(move);
+        }
+
+        return availableMoves;
+    }
+
+    protected void CastRayToDirection(Unit unit, List<Vector2Int> possibleMoves, Vector2Int direction)
+    {
+        for (int distance = 1; distance < 8; distance++)
+        {
+            Vector2Int move = unit.Moving().GetPosition() + direction * distance;
+
+            if (!_gameBoard.IsMoveAvailable(move, unit))
+                return;
+
+            possibleMoves.Add(move);
+
+            if (_gameBoard.GetCell(move).IsOccupied())
+                return;
+        }
     }
 
 

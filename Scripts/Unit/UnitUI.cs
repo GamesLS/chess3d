@@ -3,13 +3,26 @@ using UnityEngine;
 
 public class UnitUI : MonoBehaviour
 {
+    public void ChangeType(Unit.Type type)
+    {
+        switch (type)
+        {
+            case Unit.Type.Pawn:
+                _possibleMovesCalculator = new PawnPossibleMovesCalculator(_gameBoard);
+                break;
+            case Unit.Type.Root:
+                _possibleMovesCalculator = new RootPossibleMovesCalculator(_gameBoard);
+                break;
+        }
+    }
+
     public static void HidePossibleMoves()
     {
         foreach (Cell cell in _shownMoves)
             cell.Deactivate();
     }
 
-    static void ShowPossibeMoves(Unit unit)
+    void ShowPossibeMoves(Unit unit)
     {
         HidePossibleMoves();
 
@@ -23,25 +36,23 @@ public class UnitUI : MonoBehaviour
         }
     }
 
-    void Start()
+    void Awake()
     {
         _unit = GetComponent<Unit>();
 
         if (_gameBoard == null)
             _gameBoard = FindObjectOfType<ChessBoard>();
-
-        if(_possibleMovesCalculator == null)
-            _possibleMovesCalculator = new PawnPossibleMovesCalculator(_gameBoard);
     }
 
     void OnMouseDown()
     {
-        ShowPossibeMoves(_unit);
+        if (ChessBoard.WhoseMove == _unit.UnitTeam)
+            ShowPossibeMoves(_unit);
     }
 
 
 
-    static IPossibleMovesCalculator _possibleMovesCalculator;
+    IPossibleMovesCalculator _possibleMovesCalculator;
     static List<Cell> _shownMoves = new List<Cell>();
     static IGameBoard _gameBoard;
     Unit _unit;

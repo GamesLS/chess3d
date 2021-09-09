@@ -2,10 +2,16 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
+    public void ChangeTeam(Team team)
+    {
+        UnitTeam = team;
+        _unitGFX.SetUnitTeam(this, team);
+    }
+    
     public void ChangeType(Type type)
     {
         UnitType = type;
-        _unitGFX.SetUnitType(this, type);
+        _unitUI.ChangeType(type);
     }
 
     public void Death()
@@ -35,17 +41,30 @@ public class Unit : MonoBehaviour
         return _unitGFX;
     }
 
-    public enum Type
+    public enum Team
     {
         Black,
         White
     }
 
-    public Type UnitType { get; private set; } = Type.White;
+    public Team UnitTeam { get; private set; }
+    
+    public enum Type
+    {
+        Pawn,
+        Root,
+        Knight,
+        Bishop,
+        Queen,
+        King
+    }
+
+    public Type UnitType { get; private set; }
 
     
 
     [SerializeField] UnitMoving _unitMoving;
+    [SerializeField] UnitUI _unitUI;
     [SerializeField] UnitGFX _unitGFX;
     bool _isAlive = true;
 }

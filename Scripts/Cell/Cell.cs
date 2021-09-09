@@ -66,6 +66,7 @@ public class Cell : BoardObject
         {
             _gameBoard.Move(_possibleUnit, this);
             UnitUI.HidePossibleMoves();
+            ChessBoard.WhoseMove = ChessBoard.WhoseMove == Unit.Team.White ? Unit.Team.Black : Unit.Team.White;
         }
     }
 

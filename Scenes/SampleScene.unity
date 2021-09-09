@@ -887,7 +887,7 @@ MonoBehaviour:
   _parent: {fileID: 1329400410}
   _white: {fileID: 2100000, guid: 73043ecee62571a47850ea91d74aceab, type: 2}
   _black: {fileID: 2100000, guid: 28dc362f924d30c4fa1aa98c861a0244, type: 2}
-  _pawn: {fileID: 6453192584533783212, guid: 176d819c1bec88b4da052b529ac511de, type: 3}
+  _pawn: {fileID: 1570884037557760378, guid: 835c2b1aabfb93b47b1d9c14cf70a039, type: 3}
   _pawnsSpawnW:
   - {fileID: 2145188836}
   - {fileID: 21054031}
@@ -906,6 +906,13 @@ MonoBehaviour:
   - {fileID: 972571648}
   - {fileID: 853539114}
   - {fileID: 718827412}
+  _root: {fileID: 2891898491678389720, guid: 2f527b2f4fb38fc4c97256d2136c2513, type: 3}
+  _rootsSpawnW:
+  - {fileID: 358273372}
+  - {fileID: 393788857}
+  _rootsSpawnB:
+  - {fileID: 1459995847}
+  - {fileID: 1378118825}
 --- !u!4 &166761588 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7336226474153978772, guid: 2b02466b4cbe8774ca4a33d4f4da5c5c, type: 3}
@@ -2560,7 +2567,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_LocalRotation: {x: 0.16547918, y: 0.25287795, z: -0.043945394, w: 0.95222807}
+  m_LocalRotation: {x: 0.16547918, y: 0.25287795, z: -0.043945402, w: 0.95222807}
   m_LocalPosition: {x: -4.267495, y: 0.28780818, z: -6.8482285}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -2968,7 +2975,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1133713421}
-  m_LocalRotation: {x: 0.14817716, y: 0.25363356, z: -0.039350584, w: 0.95507336}
+  m_LocalRotation: {x: 0.14817715, y: 0.25363353, z: -0.03935058, w: 0.95507336}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:

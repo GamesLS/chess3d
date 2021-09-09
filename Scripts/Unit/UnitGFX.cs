@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class UnitGFX : MonoBehaviour
 {
-    public void SetUnitType(Unit unit, Unit.Type type)
+    public void SetUnitTeam(Unit unit, Unit.Team team)
     {
-        if (type == Unit.Type.Black)
+        if (team == Unit.Team.Black)
             unit.GFX().SetMaterial(_black);
         else
             unit.GFX().SetMaterial(_white);

@@ -15,7 +15,7 @@ public class ChessBoard : MonoBehaviour, IGameBoard
             || move.x < 0 || move.y < 0)
             return false;
         else if (GetCell(move).IsOccupied()
-            && (GetCell(move).GetUnit().UnitType == unit.UnitType))
+            && (GetCell(move).GetUnit().UnitTeam == unit.UnitTeam))
             return false;
         else
             return true;
@@ -31,7 +31,7 @@ public class ChessBoard : MonoBehaviour, IGameBoard
 
     public void UndoMove()
     {
-        if(_commandHistory.Any())
+        if (_commandHistory.Any())
         {
             UnitUI.HidePossibleMoves();
             ICommand lastMove = _commandHistory.Pop();
@@ -39,8 +39,19 @@ public class ChessBoard : MonoBehaviour, IGameBoard
         }
     }
 
+    public static Unit.Team WhoseMove
+    {
+        get { return _whoseMove; }
+        set
+        {
+            Debug.Log(12);
+            _whoseMove = value;
+        }
+    }
 
 
+
+    static Unit.Team _whoseMove = Unit.Team.White;
     [SerializeField] List<Cell> _cells = new List<Cell>();
     Stack<ICommand> _commandHistory = new Stack<ICommand>();
     int _size = 8;
