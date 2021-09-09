@@ -12,13 +12,13 @@ public abstract class BasePossibleMovesCalculator : IPossibleMovesCalculator
 
     protected void AddMoveIfThereEnemyUnit(Unit unit, Vector2Int move, List<Vector2Int> listOfMoves)
     {
-        if(_gameBoard.IsMoveAvailable(move, unit)
+        if (_gameBoard.IsMoveAvailable(move, unit)
             && _gameBoard.GetCell(move).IsOccupied()
             && (_gameBoard.GetCell(move).GetUnit().UnitType != unit.UnitType))
             listOfMoves.Add(move);
     }
-    
-    
-    
+
+
+
     protected IGameBoard _gameBoard;
 }

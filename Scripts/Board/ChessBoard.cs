@@ -23,7 +23,8 @@ public class ChessBoard : MonoBehaviour, IGameBoard
 
     public void Move(Unit unit, Cell cell)
     {
-        ICommand newMove = new UnitMoveCommand(unit, cell.GetPosition());
+        Unit unitToKill = cell.IsOccupied() ? cell.GetUnit() : null;
+        ICommand newMove = new UnitMoveCommand(unit, cell.GetPosition(), unitToKill);
         newMove.Execute();
         _commandHistory.Push(newMove);
     }

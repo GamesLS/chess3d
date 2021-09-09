@@ -6,6 +6,12 @@ public class Cell : BoardObject
         _isOccupied = true;
     }
 
+    public void ForgiveUnit()
+    {
+        _unit = null;
+        _isOccupied = false;
+    }
+
     public Unit GetUnit()
     {
         return _unit;
@@ -19,13 +25,14 @@ public class Cell : BoardObject
     public void Activate(Unit unit)
     {
         _gfx.Activate();
-        _unit = unit;
+        _possibleUnit = unit;
         _isActive = true;
     }
 
     public void Deactivate()
     {
         _gfx.Deactivate();
+        _possibleUnit = null;
         _isActive = false;
     }
 
@@ -55,11 +62,10 @@ public class Cell : BoardObject
 
     void OnMouseDown()
     {
-        if (_isActive && _unit != null)
+        if (_isActive && _possibleUnit != null)
         {
-            _gameBoard.Move(_unit, this);
+            _gameBoard.Move(_possibleUnit, this);
             UnitUI.HidePossibleMoves();
-            // TODO: unit.cell.ForgiveUnit(); 
         }
     }
 
@@ -68,6 +74,7 @@ public class Cell : BoardObject
     static IGameBoard _gameBoard;
     bool _isActive = false;
     bool _isOccupied = false;
+    Unit _possibleUnit;
     Unit _unit;
     CellGFX _gfx;
 }

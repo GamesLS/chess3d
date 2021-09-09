@@ -2,11 +2,24 @@ using UnityEngine;
 
 public class UnitMoving : BoardObject, IMoveOnBoard
 {
-    public void Move(Vector2Int cell)
+    public void Init(Cell cell, IGameBoard gameBoard)
     {
-        _movingTarget = new Vector3(cell.x, transform.position.y, cell.y);
+        _cell = cell;
+        _cell.PlaceUnit(_unit);
+
+        if (_gameBoard == null) _gameBoard = gameBoard;
+    }
+
+    public void Move(Vector2Int position)
+    {
+        _cell.ForgiveUnit();
+        _cell = _gameBoard.GetCell(position);
+        _movingTarget = new Vector3(
+            position.x, transform.position.y, position.y
+            );
         _isNeedMove = true;
         _numberOfMoves++;
+        _cell.PlaceUnit(_unit);
     }
 
     public Vector2Int GetForward()
@@ -52,6 +65,9 @@ public class UnitMoving : BoardObject, IMoveOnBoard
 
 
 
+    static IGameBoard _gameBoard;
+    Cell _cell;
+    [SerializeField] Unit _unit;
     [SerializeField] Transform _model;
     [SerializeField] float _movingSpeed = .4f;
 

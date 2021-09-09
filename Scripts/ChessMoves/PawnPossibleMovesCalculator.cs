@@ -14,11 +14,18 @@ public class PawnPossibleMovesCalculator : BasePossibleMovesCalculator
         return DeleteRestricted(unit, possibleMoves);
     }
 
-    static void AddForwardMoves(Unit unit, List<Vector2Int> possibleMoves)
+    void AddForwardMoves(Unit unit, List<Vector2Int> possibleMoves)
     {
-        possibleMoves.Add(unit.Moving().GetPosition() + unit.Moving().GetForward());
-        if (unit.Moving().GetNumberOfMoves() == 0)
-            possibleMoves.Add(unit.Moving().GetPosition() + unit.Moving().GetForward() * 2);
+        Vector2Int forward = unit.Moving().GetPosition() + unit.Moving().GetForward();
+        if (_gameBoard.GetCell(forward).IsOccupied())
+            return;
+        possibleMoves.Add(forward);
+
+        Vector2Int doubleForward = unit.Moving().GetPosition() + unit.Moving().GetForward() * 2;
+        if (_gameBoard.GetCell(doubleForward).IsOccupied())
+            return;
+        else if (unit.Moving().GetNumberOfMoves() == 0)
+            possibleMoves.Add(doubleForward);
     }
 
     void AddDiagonalMoves(Unit unit, List<Vector2Int> possibleMoves)

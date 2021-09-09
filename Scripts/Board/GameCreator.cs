@@ -26,6 +26,8 @@ public class GameCreator : MonoBehaviour
             unit.transform.position = position;
 
             if (type == Unit.Type.Black) unit.Moving().ApplyRotation(_blackRotation);
+
+            unit.Moving().Init(cell, _gameBoard);
         }
     }
 
@@ -38,9 +40,10 @@ public class GameCreator : MonoBehaviour
 
 
     Quaternion _blackRotation;
+    [SerializeField] ChessBoard _gameBoard;
+    [SerializeField] Transform _parent;
     [SerializeField] Material _white;
     [SerializeField] Material _black;
-    [SerializeField] Transform _parent;
     [SerializeField] GameObject _pawn;
     [SerializeField] Cell[] _pawnsSpawnW;
     [SerializeField] Cell[] _pawnsSpawnB;
