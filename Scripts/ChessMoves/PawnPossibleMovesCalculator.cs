@@ -22,11 +22,13 @@ public class PawnPossibleMovesCalculator : BasePossibleMovesCalculator
             return;
         possibleMoves.Add(forward);
 
-        Vector2Int doubleForward = unit.Moving().GetPosition() + unit.Moving().GetForward() * 2;
-        if (_gameBoard.GetCell(doubleForward).IsOccupied())
-            return;
-        else if (unit.Moving().GetNumberOfMoves() == 0)
+        if (unit.Moving().GetNumberOfMoves() == 0)
+        {
+            Vector2Int doubleForward = unit.Moving().GetPosition() + unit.Moving().GetForward() * 2;
+            if (_gameBoard.GetCell(doubleForward).IsOccupied())
+                return;
             possibleMoves.Add(doubleForward);
+        }
     }
 
     void AddDiagonalMoves(Unit unit, List<Vector2Int> possibleMoves)

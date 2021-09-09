@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -44,13 +45,15 @@ public class ChessBoard : MonoBehaviour, IGameBoard
         get { return _whoseMove; }
         set
         {
-            Debug.Log(12);
             _whoseMove = value;
+            OnTeamTurnChanged?.Invoke();
         }
     }
 
 
 
+
+    static public Action OnTeamTurnChanged;
     static Unit.Team _whoseMove = Unit.Team.White;
     [SerializeField] List<Cell> _cells = new List<Cell>();
     Stack<ICommand> _commandHistory = new Stack<ICommand>();
