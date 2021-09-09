@@ -31,9 +31,9 @@ public abstract class BasePossibleMovesCalculator : IPossibleMovesCalculator
         return availableMoves;
     }
 
-    protected void CastRayToDirection(Unit unit, List<Vector2Int> possibleMoves, Vector2Int direction)
+    protected void CastRayToDirection(Unit unit, List<Vector2Int> possibleMoves, Vector2Int direction, int maxDistance = 8)
     {
-        for (int distance = 1; distance < 8; distance++)
+        for (int distance = 1; distance <= maxDistance; distance++)
         {
             Vector2Int move = unit.Moving().GetPosition() + direction * distance;
 

@@ -12,6 +12,10 @@ public class GameCreator : MonoBehaviour
     {
         CreatePawns();
         CreateRoots();
+        CreateKnights();
+        CreateBishops();
+        CreateQueens();
+        CreateKings();
     }
 
     void CreateUnits(Cell[] spawns, GameObject prefab, Unit.Team team, Unit.Type type)
@@ -45,6 +49,30 @@ public class GameCreator : MonoBehaviour
         CreateUnits(_rootsSpawnW, _root, Unit.Team.White, Unit.Type.Root);
     }
 
+    void CreateKnights()
+    {
+        CreateUnits(_knightsSpawnB, _knight, Unit.Team.Black, Unit.Type.Knight);
+        CreateUnits(_knightsSpawnW, _knight, Unit.Team.White, Unit.Type.Knight);
+    }
+
+    void CreateBishops()
+    {
+        CreateUnits(_bishopsSpawnB, _bishop, Unit.Team.Black, Unit.Type.Bishop);
+        CreateUnits(_bishopsSpawnW, _bishop, Unit.Team.White, Unit.Type.Bishop);
+    }
+
+    void CreateQueens()
+    {
+        CreateUnits(_queenSpawnB, _queen, Unit.Team.Black, Unit.Type.Queen);
+        CreateUnits(_queenSpawnW, _queen, Unit.Team.White, Unit.Type.Queen);
+    }
+
+    void CreateKings()
+    {
+        CreateUnits(_kingSpawnB, _king, Unit.Team.Black, Unit.Type.King);
+        CreateUnits(_kingSpawnW, _king, Unit.Team.White, Unit.Type.King);
+    }
+
 
 
     Quaternion _blackRotation;
@@ -52,10 +80,23 @@ public class GameCreator : MonoBehaviour
     [SerializeField] Transform _parent;
     [SerializeField] Material _white;
     [SerializeField] Material _black;
+
     [SerializeField] GameObject _pawn;
     [SerializeField] Cell[] _pawnsSpawnW;
     [SerializeField] Cell[] _pawnsSpawnB;
     [SerializeField] GameObject _root;
     [SerializeField] Cell[] _rootsSpawnW;
     [SerializeField] Cell[] _rootsSpawnB;
+    [SerializeField] GameObject _knight;
+    [SerializeField] Cell[] _knightsSpawnW;
+    [SerializeField] Cell[] _knightsSpawnB;
+    [SerializeField] GameObject _bishop;
+    [SerializeField] Cell[] _bishopsSpawnW;
+    [SerializeField] Cell[] _bishopsSpawnB;
+    [SerializeField] GameObject _queen;
+    [SerializeField] Cell[] _queenSpawnW;
+    [SerializeField] Cell[] _queenSpawnB;
+    [SerializeField] GameObject _king;
+    [SerializeField] Cell[] _kingSpawnW;
+    [SerializeField] Cell[] _kingSpawnB;
 }

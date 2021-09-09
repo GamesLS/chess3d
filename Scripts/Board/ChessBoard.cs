@@ -37,6 +37,8 @@ public class ChessBoard : MonoBehaviour, IGameBoard
             UnitUI.HidePossibleMoves();
             ICommand lastMove = _commandHistory.Pop();
             lastMove.Undo();
+
+            WhoseMove = WhoseMove == Unit.Team.White ? Unit.Team.Black : Unit.Team.White;
         }
     }
 

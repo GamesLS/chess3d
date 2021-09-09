@@ -13,6 +13,18 @@ public class UnitUI : MonoBehaviour
             case Unit.Type.Root:
                 _possibleMovesCalculator = new RootPossibleMovesCalculator(_gameBoard);
                 break;
+            case Unit.Type.Knight:
+                _possibleMovesCalculator = new KnightPossibleMovesCalculator(_gameBoard);
+                break;
+            case Unit.Type.Bishop:
+                _possibleMovesCalculator = new BishopPossibleMovesCalculator(_gameBoard);
+                break;
+            case Unit.Type.Queen:
+                _possibleMovesCalculator = new QueenPossibleMovesCalculator(_gameBoard);
+                break;
+            case Unit.Type.King:
+                _possibleMovesCalculator = new KingPossibleMovesCalculator(_gameBoard);
+                break;
         }
     }
 
@@ -27,7 +39,7 @@ public class UnitUI : MonoBehaviour
         HidePossibleMoves();
 
         List<Vector2Int> movesCoord = _possibleMovesCalculator.Calculate(unit);
-
+        Debug.Log(movesCoord.Count);
         foreach (Vector2Int coord in movesCoord)
         {
             Cell cellToMove = _gameBoard.GetCell(coord);

@@ -21,7 +21,13 @@ public class UnitMoveCommand : ICommand
         _unit.Moving().ReduceNumberOfMoves();
         _unit.Moving().Move(_previousPosition);
         _unit.Moving().ReduceNumberOfMoves();
-        if (_unitToKill) _unitToKill.Alive();
+
+        if (_unitToKill)
+        {
+            _unitToKill.Alive();
+            _unitToKill.Moving().Move(_movePosition);
+            _unitToKill.Moving().ReduceNumberOfMoves();
+        }
     }
 
 
