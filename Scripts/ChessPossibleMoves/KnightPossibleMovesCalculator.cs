@@ -5,9 +5,9 @@ public class KnightPossibleMovesCalculator : BasePossibleMovesCalculator
 {
     public KnightPossibleMovesCalculator(IGameBoard gameBoard) : base(gameBoard) { }
 
-    public override List<Vector2Int> Calculate(Unit unit)
+    public override ICollection<Vector2Int> Calculate(Unit unit)
     {
-        List<Vector2Int> possibleMoves = new List<Vector2Int>();
+        ICollection<Vector2Int> possibleMoves = new List<Vector2Int>();
 
         Vector2Int position = unit.Moving().GetPosition();
         Vector2Int forward = unit.Moving().GetForward();

@@ -5,21 +5,19 @@ using UnityEngine;
 
 public class ChessBoard : MonoBehaviour, IGameBoard
 {
+    public void AddUnit(Unit unit)
+    {
+        _units.Add(unit);
+    }
+
     public Cell GetCell(Vector2Int position)
     {
         return _cells.Where(cell => cell.GetPosition() == position).FirstOrDefault();
     }
-
-    public bool IsMoveAvailable(Vector2Int move, Unit unit)
+    
+    public IEnumerable<Unit> GetUnit(Unit.Type type)
     {
-        if (move.x >= _size || move.y >= _size
-            || move.x < 0 || move.y < 0)
-            return false;
-        else if (GetCell(move).IsOccupied()
-            && (GetCell(move).GetUnit().UnitTeam == unit.UnitTeam))
-            return false;
-        else
-            return true;
+        return _units.Where(u => u.UnitType == type);
     }
 
     public void Move(Unit unit, Cell cell)
@@ -52,12 +50,93 @@ public class ChessBoard : MonoBehaviour, IGameBoard
         }
     }
 
+    public bool IsMoveAvailable(Vector2Int move, Unit unit)
+    {
+        if (move.x >= _size || move.y >= _size
+            || move.x < 0 || move.y < 0)
+            return false;
+        else if (GetCell(move).IsOccupied()
+            && (GetCell(move).GetUnit().UnitTeam == unit.UnitTeam))
+            return false;
+        else if (unit.UnitType == Unit.Type.King)
+            return IsMoveSafe(move, unit);
+        else
+            return true;
+    }
+
+    bool IsMoveSafe(Vector2Int move, Unit unit)
+    {
+        if (!_enemyMoves.Any())
+        {
+            CalculateDangerousMoves(move, unit);
+        }
+
+        if (_enemyMoves.Contains(move))
+            return false;
+        else 
+            return true;
+    }
+
+    private void CalculateDangerousMoves(Vector2Int move, Unit unit)
+    {
+        Cell potentialCell = GetCell(move);
+        Unit tempUnit = potentialCell.GetUnit();
+        potentialCell.PlaceUnit(unit);
+
+        CalculateEnemyMoves();
+
+        if (tempUnit == null)
+            potentialCell.ForgiveUnit();
+        else
+            potentialCell.PlaceUnit(tempUnit);
+
+        IEnumerable<Vector2Int> pawnsStraightMoves = CalculateOnlyPawnsMoves();
+        foreach (Vector2Int pawnMove in pawnsStraightMoves)
+            _enemyMoves.Remove(pawnMove);
+    }
+
+    void CalculateEnemyMoves()
+    {
+        Unit.Team enemyTeam = WhoseMove == Unit.Team.Black ? Unit.Team.White : Unit.Team.Black;
+        IEnumerable<Unit> enemyUnits = _units.Where(u => u.UnitTeam == enemyTeam && u.UnitType != Unit.Type.King);
+        
+        foreach (Unit enemyUnit in enemyUnits)
+        {
+            _enemyMoves.AddRange(enemyUnit.UI.GetPossibleMoves(enemyUnit));
+        }
+    }
+
+    IEnumerable<Vector2Int> CalculateOnlyPawnsMoves()
+    {
+        List<Vector2Int> moves = new List<Vector2Int>();
+        Unit.Team enemyTeam = WhoseMove == Unit.Team.Black ? Unit.Team.White : Unit.Team.Black;
+        IEnumerable<Unit> enemyUnits = _units.Where(u => u.UnitTeam == enemyTeam && u.UnitType == Unit.Type.Pawn);
+
+        foreach (Unit enemyUnit in enemyUnits)
+        {
+            moves.AddRange(enemyUnit.UI.GetPossibleMoves(enemyUnit));
+        }
+
+        return moves;
+    }
+
+    void ResetEnemyMoves()
+    {
+        if (_enemyMoves.Any()) _enemyMoves.Clear();
+    }
+
+    void Start()
+    {
+        OnTeamTurnChanged += ResetEnemyMoves;
+    }
 
 
 
     static public Action OnTeamTurnChanged;
     static Unit.Team _whoseMove = Unit.Team.White;
     [SerializeField] List<Cell> _cells = new List<Cell>();
+    [SerializeField] ICollection<Unit> _units = new List<Unit>();
+    List<Vector2Int> _enemyMoves = new List<Vector2Int>(); // king moves not included
     Stack<ICommand> _commandHistory = new Stack<ICommand>();
     int _size = 8;
 }

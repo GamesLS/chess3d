@@ -7,7 +7,7 @@ public class Unit : MonoBehaviour
         UnitTeam = team;
         _unitGFX.SetUnitTeam(this, team);
     }
-    
+
     public void ChangeType(Type type)
     {
         UnitType = type;
@@ -48,7 +48,7 @@ public class Unit : MonoBehaviour
     }
 
     public Team UnitTeam { get; private set; }
-    
+
     public enum Type
     {
         Pawn,
@@ -61,7 +61,9 @@ public class Unit : MonoBehaviour
 
     public Type UnitType { get; private set; }
 
-    
+    public UnitUI UI { get { return _unitUI; } private set { _unitUI = value; } }
+
+
 
     [SerializeField] UnitMoving _unitMoving;
     [SerializeField] UnitUI _unitUI;

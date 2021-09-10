@@ -5,6 +5,9 @@ public class UnitUI : MonoBehaviour
 {
     public void ChangeType(Unit.Type type)
     {
+        if (_gameBoard == null)
+            Debug.LogWarning($"UnitUI.ChangeType() _gameBoard == null, instanceID: {gameObject.GetInstanceID()}");
+
         switch (type)
         {
             case Unit.Type.Pawn:
@@ -34,12 +37,17 @@ public class UnitUI : MonoBehaviour
             cell.Deactivate();
     }
 
+    public IEnumerable<Vector2Int> GetPossibleMoves(Unit unit)
+    {
+        return _possibleMovesCalculator.Calculate(unit);
+    }
+
     void ShowPossibeMoves(Unit unit)
     {
         HidePossibleMoves();
 
-        List<Vector2Int> movesCoord = _possibleMovesCalculator.Calculate(unit);
-        Debug.Log(movesCoord.Count);
+        IEnumerable<Vector2Int> movesCoord = _possibleMovesCalculator.Calculate(unit);
+        
         foreach (Vector2Int coord in movesCoord)
         {
             Cell cellToMove = _gameBoard.GetCell(coord);
@@ -53,7 +61,11 @@ public class UnitUI : MonoBehaviour
         _unit = GetComponent<Unit>();
 
         if (_gameBoard == null)
+        {
             _gameBoard = FindObjectOfType<ChessBoard>();
+            if (_gameBoard == null)
+                Debug.LogWarning($"UnitUI can`t FindObjectOfType<ChessBoard> instanceID: {gameObject.GetInstanceID()}");
+        }
     }
 
     void OnMouseDown()
@@ -65,7 +77,7 @@ public class UnitUI : MonoBehaviour
 
 
     IPossibleMovesCalculator _possibleMovesCalculator;
-    static List<Cell> _shownMoves = new List<Cell>();
+    static ICollection<Cell> _shownMoves = new List<Cell>();
     static IGameBoard _gameBoard;
     Unit _unit;
 }

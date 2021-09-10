@@ -5,9 +5,9 @@ public class PawnPossibleMovesCalculator : BasePossibleMovesCalculator
 {
     public PawnPossibleMovesCalculator(IGameBoard gameBoard) : base(gameBoard) { }
 
-    public override List<Vector2Int> Calculate(Unit unit)
+    public override ICollection<Vector2Int> Calculate(Unit unit)
     {
-        List<Vector2Int> possibleMoves = new List<Vector2Int>();
+        ICollection<Vector2Int> possibleMoves = new List<Vector2Int>();
 
         AddForwardMoves(unit, possibleMoves);
         AddDiagonalMoves(unit, possibleMoves);
@@ -15,7 +15,7 @@ public class PawnPossibleMovesCalculator : BasePossibleMovesCalculator
         return DeleteRestricted(unit, possibleMoves);
     }
 
-    void AddForwardMoves(Unit unit, List<Vector2Int> possibleMoves)
+    void AddForwardMoves(Unit unit, ICollection<Vector2Int> possibleMoves)
     {
         Vector2Int forward = unit.Moving().GetPosition() + unit.Moving().GetForward();
         if (_gameBoard.GetCell(forward).IsOccupied())
@@ -31,7 +31,7 @@ public class PawnPossibleMovesCalculator : BasePossibleMovesCalculator
         }
     }
 
-    void AddDiagonalMoves(Unit unit, List<Vector2Int> possibleMoves)
+    void AddDiagonalMoves(Unit unit, ICollection<Vector2Int> possibleMoves)
     {
         Vector2Int forward = unit.Moving().GetPosition() + unit.Moving().GetForward();
         Vector2Int right = unit.Moving().GetRight();

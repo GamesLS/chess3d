@@ -5,9 +5,9 @@ public class BishopPossibleMovesCalculator : BasePossibleMovesCalculator
 {
     public BishopPossibleMovesCalculator(IGameBoard gameBoard) : base(gameBoard) { }
 
-    public override List<Vector2Int> Calculate(Unit unit)
+    public override ICollection<Vector2Int> Calculate(Unit unit)
     {
-        List<Vector2Int> possibleMoves = new List<Vector2Int>();
+        ICollection<Vector2Int> possibleMoves = new List<Vector2Int>();
 
         CastRayToDirection(unit, possibleMoves, unit.Moving().GetForward() + unit.Moving().GetRight());
         CastRayToDirection(unit, possibleMoves, -unit.Moving().GetForward() + unit.Moving().GetRight());

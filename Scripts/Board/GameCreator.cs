@@ -24,16 +24,15 @@ public class GameCreator : MonoBehaviour
         {
             Unit unit = Instantiate(prefab, _parent).GetComponent<Unit>();
             unit.ChangeTeam(team);
+            unit.ChangeType(type);
+            unit.Moving().Init(cell, _gameBoard);
 
-            Vector3 position = new Vector3(
-                cell.GetPosition().x, _parent.transform.position.y, cell.GetPosition().y
-                );
+            Vector3 position = new Vector3(cell.GetPosition().x, _parent.transform.position.y, cell.GetPosition().y);
             unit.transform.position = position;
 
             if (team == Unit.Team.Black) unit.Moving().ApplyRotation(_blackRotation);
 
-            unit.Moving().Init(cell, _gameBoard);
-            unit.ChangeType(type);
+            _gameBoard.AddUnit(unit);
         }
     }
 
@@ -78,8 +77,6 @@ public class GameCreator : MonoBehaviour
     Quaternion _blackRotation;
     [SerializeField] ChessBoard _gameBoard;
     [SerializeField] Transform _parent;
-    [SerializeField] Material _white;
-    [SerializeField] Material _black;
 
     [SerializeField] GameObject _pawn;
     [SerializeField] Cell[] _pawnsSpawnW;

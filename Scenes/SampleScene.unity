@@ -1094,8 +1094,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gameBoard: {fileID: 165727967}
   _parent: {fileID: 1329400410}
-  _white: {fileID: 2100000, guid: 73043ecee62571a47850ea91d74aceab, type: 2}
-  _black: {fileID: 2100000, guid: 28dc362f924d30c4fa1aa98c861a0244, type: 2}
   _pawn: {fileID: 1570884037557760378, guid: 835c2b1aabfb93b47b1d9c14cf70a039, type: 3}
   _pawnsSpawnW:
   - {fileID: 2145188836}

@@ -5,12 +5,12 @@ public abstract class BasePossibleMovesCalculator : IPossibleMovesCalculator
 {
     public BasePossibleMovesCalculator(IGameBoard gameBoard)
     {
-        _gameBoard = gameBoard;
+        _gameBoard = gameBoard ?? throw new System.ArgumentNullException("Game board is null");
     }
 
-    public abstract List<Vector2Int> Calculate(Unit unit);
+    public abstract ICollection<Vector2Int> Calculate(Unit unit);
 
-    protected void AddMoveIfThereEnemyUnit(Unit unit, Vector2Int move, List<Vector2Int> listOfMoves)
+    protected void AddMoveIfThereEnemyUnit(Unit unit, Vector2Int move, ICollection<Vector2Int> listOfMoves)
     {
         if (_gameBoard.IsMoveAvailable(move, unit)
             && _gameBoard.GetCell(move).IsOccupied()
@@ -18,7 +18,7 @@ public abstract class BasePossibleMovesCalculator : IPossibleMovesCalculator
             listOfMoves.Add(move);
     }
 
-    protected List<Vector2Int> DeleteRestricted(Unit unit, List<Vector2Int> possibleMoves)
+    protected ICollection<Vector2Int> DeleteRestricted(Unit unit, ICollection<Vector2Int> possibleMoves)
     {
         List<Vector2Int> availableMoves = new List<Vector2Int>();
         availableMoves.AddRange(possibleMoves);
@@ -31,7 +31,7 @@ public abstract class BasePossibleMovesCalculator : IPossibleMovesCalculator
         return availableMoves;
     }
 
-    protected void CastRayToDirection(Unit unit, List<Vector2Int> possibleMoves, Vector2Int direction, int maxDistance = 8)
+    protected void CastRayToDirection(Unit unit, ICollection<Vector2Int> possibleMoves, Vector2Int direction, int maxDistance = 8)
     {
         for (int distance = 1; distance <= maxDistance; distance++)
         {

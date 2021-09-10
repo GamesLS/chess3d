@@ -1,14 +1,14 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class KingPossibleMovesCalculator : BasePossibleMovesCalculator
 {
     public KingPossibleMovesCalculator(IGameBoard gameBoard) : base(gameBoard) { }
 
-    public override List<Vector2Int> Calculate(Unit unit)
+    public override ICollection<Vector2Int> Calculate(Unit unit)
     {
-        List<Vector2Int> possibleMoves = new List<Vector2Int>();
+        ICollection<Vector2Int> possibleMoves = new List<Vector2Int>();
 
         AddStraightDirections(unit, possibleMoves);
         AddDiagonalDirections(unit, possibleMoves);
@@ -18,7 +18,7 @@ public class KingPossibleMovesCalculator : BasePossibleMovesCalculator
         return possibleMoves;
     }
 
-    void AddStraightDirections(Unit unit, List<Vector2Int> possibleMoves)
+    void AddStraightDirections(Unit unit, ICollection<Vector2Int> possibleMoves)
     {
         CastRayToDirection(unit, possibleMoves, unit.Moving().GetForward(), 1);
         CastRayToDirection(unit, possibleMoves, -unit.Moving().GetForward(), 1);
@@ -26,7 +26,7 @@ public class KingPossibleMovesCalculator : BasePossibleMovesCalculator
         CastRayToDirection(unit, possibleMoves, -unit.Moving().GetRight(), 1);
     }
 
-    void AddDiagonalDirections(Unit unit, List<Vector2Int> possibleMoves)
+    void AddDiagonalDirections(Unit unit, ICollection<Vector2Int> possibleMoves)
     {
         CastRayToDirection(unit, possibleMoves, unit.Moving().GetForward() + unit.Moving().GetRight(), 1);
         CastRayToDirection(unit, possibleMoves, -unit.Moving().GetForward() + unit.Moving().GetRight(), 1);
@@ -34,8 +34,27 @@ public class KingPossibleMovesCalculator : BasePossibleMovesCalculator
         CastRayToDirection(unit, possibleMoves, -unit.Moving().GetForward() - unit.Moving().GetRight(), 1);
     }
 
-    void DeleteOppositeTeamKingMoves(Unit unit, List<Vector2Int> possibleMoves)
+    void DeleteOppositeTeamKingMoves(Unit unit, ICollection<Vector2Int> possibleMoves)
     {
-        Debug.Log("DeleteOppositeTeamKingMoves(Unit unit, List<Vector2Int> possibleMoves): implement me sempai!");
+        Unit enemyKing = _gameBoard.GetUnit(Unit.Type.King)
+            .Where(u => u.UnitTeam != unit.UnitTeam).First();
+        Vector2Int ekPosition = enemyKing.Moving().GetPosition();
+        Vector2Int forward = enemyKing.Moving().GetForward();
+        Vector2Int right = enemyKing.Moving().GetRight();
+
+        ICollection<Vector2Int> enemyKingMoves = new List<Vector2Int>();
+
+        enemyKingMoves.Add(ekPosition + forward);
+        enemyKingMoves.Add(ekPosition - forward);
+        enemyKingMoves.Add(ekPosition + right);
+        enemyKingMoves.Add(ekPosition - right);
+
+        enemyKingMoves.Add(ekPosition + forward + right);
+        enemyKingMoves.Add(ekPosition + forward - right);
+        enemyKingMoves.Add(ekPosition - forward + right);
+        enemyKingMoves.Add(ekPosition - forward - right);
+
+        foreach (Vector2Int ekMove in enemyKingMoves)
+            possibleMoves.Remove(ekMove);
     }
 }
