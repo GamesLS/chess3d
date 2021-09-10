@@ -8,7 +8,7 @@ public abstract class BasePossibleMovesCalculator : IPossibleMovesCalculator
         _gameBoard = gameBoard ?? throw new System.ArgumentNullException("Game board is null");
     }
 
-    public abstract ICollection<Vector2Int> Calculate(Unit unit);
+    public abstract ICollection<Vector2Int> Calculate(Unit unit, bool onlyKillMoves = false);
 
     protected void AddMoveIfThereEnemyUnit(Unit unit, Vector2Int move, ICollection<Vector2Int> listOfMoves)
     {
@@ -36,7 +36,7 @@ public abstract class BasePossibleMovesCalculator : IPossibleMovesCalculator
         for (int distance = 1; distance <= maxDistance; distance++)
         {
             Vector2Int move = unit.Moving().GetPosition() + direction * distance;
-
+            
             if (!_gameBoard.IsMoveAvailable(move, unit))
                 return;
 

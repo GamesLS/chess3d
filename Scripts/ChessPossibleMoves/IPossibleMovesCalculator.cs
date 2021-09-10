@@ -3,5 +3,5 @@ using UnityEngine;
 
 public interface IPossibleMovesCalculator
 {
-    ICollection<Vector2Int> Calculate(Unit unit);
+    ICollection<Vector2Int> Calculate(Unit unit, bool onlyKillMoves = false);
 }

@@ -89,10 +89,6 @@ public class ChessBoard : MonoBehaviour, IGameBoard
             potentialCell.ForgiveUnit();
         else
             potentialCell.PlaceUnit(tempUnit);
-
-        IEnumerable<Vector2Int> pawnsStraightMoves = CalculateOnlyPawnsMoves();
-        foreach (Vector2Int pawnMove in pawnsStraightMoves)
-            _enemyMoves.Remove(pawnMove);
     }
 
     void CalculateEnemyMoves()
@@ -102,22 +98,8 @@ public class ChessBoard : MonoBehaviour, IGameBoard
         
         foreach (Unit enemyUnit in enemyUnits)
         {
-            _enemyMoves.AddRange(enemyUnit.UI.GetPossibleMoves(enemyUnit));
+            _enemyMoves.AddRange(enemyUnit.UI.GetPossibleMoves(enemyUnit, true));
         }
-    }
-
-    IEnumerable<Vector2Int> CalculateOnlyPawnsMoves()
-    {
-        List<Vector2Int> moves = new List<Vector2Int>();
-        Unit.Team enemyTeam = WhoseMove == Unit.Team.Black ? Unit.Team.White : Unit.Team.Black;
-        IEnumerable<Unit> enemyUnits = _units.Where(u => u.UnitTeam == enemyTeam && u.UnitType == Unit.Type.Pawn);
-
-        foreach (Unit enemyUnit in enemyUnits)
-        {
-            moves.AddRange(enemyUnit.UI.GetPossibleMoves(enemyUnit));
-        }
-
-        return moves;
     }
 
     void ResetEnemyMoves()

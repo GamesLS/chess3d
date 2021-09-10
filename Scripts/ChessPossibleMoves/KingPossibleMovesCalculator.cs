@@ -6,7 +6,7 @@ public class KingPossibleMovesCalculator : BasePossibleMovesCalculator
 {
     public KingPossibleMovesCalculator(IGameBoard gameBoard) : base(gameBoard) { }
 
-    public override ICollection<Vector2Int> Calculate(Unit unit)
+    public override ICollection<Vector2Int> Calculate(Unit unit, bool onlyKillMoves = false)
     {
         ICollection<Vector2Int> possibleMoves = new List<Vector2Int>();
 

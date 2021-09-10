@@ -14,10 +14,13 @@ public class UnitMoving : BoardObject, IMoveOnBoard
     {
         _positionCell.ForgiveUnit();
         _positionCell = _gameBoard.GetCell(position);
+        _movingStart = transform.position;
         _movingTarget = new Vector3(
             position.x, transform.position.y, position.y
             );
+        _elapsedTime = 0f;
         _isNeedMove = true;
+        _isSomebodyMovesRightNow = true;
         _numberOfMoves++;
         _positionCell.PlaceUnit(_unit);
     }
@@ -46,25 +49,32 @@ public class UnitMoving : BoardObject, IMoveOnBoard
     {
         _model.rotation *= rotation;
     }
-    // TODO: rotation not response S from Solid
+    // TODO: rotation not response single responsibility
+    public bool IsMoving { get { return _isSomebodyMovesRightNow; } }
+
     void Update()
     {
         if (_isNeedMove)
         {
-            transform.position = Vector3.SmoothDamp(
-                transform.position, _movingTarget, ref _currentVelocity, _movingSpeed
-                ); 
+            float progress = _elapsedTime / _movingSpeed;
+            transform.position = Vector3.Lerp(_movingStart, _movingTarget, progress);
 
             if((_movingTarget - transform.position).sqrMagnitude <= 0.0001)
             {
                 transform.position = _movingTarget;
                 _isNeedMove = false;
+                _isSomebodyMovesRightNow = false;
+            }
+            else
+            {
+                _elapsedTime += Time.deltaTime;
             }
         }
     }
 
 
 
+    static bool _isSomebodyMovesRightNow = false;
     static IGameBoard _gameBoard;
     Cell _positionCell;
     [SerializeField] Unit _unit;
@@ -73,8 +83,9 @@ public class UnitMoving : BoardObject, IMoveOnBoard
 
     #region Smooth moving
     bool _isNeedMove = false;
+    Vector3 _movingStart;
     Vector3 _movingTarget;
-    Vector3 _currentVelocity; 
+    float _elapsedTime = 0f; 
     #endregion
 
     int _numberOfMoves = 0;

@@ -37,16 +37,16 @@ public class UnitUI : MonoBehaviour
             cell.Deactivate();
     }
 
-    public IEnumerable<Vector2Int> GetPossibleMoves(Unit unit)
+    public IEnumerable<Vector2Int> GetPossibleMoves(Unit unit, bool onlyKillMoves = false)
     {
-        return _possibleMovesCalculator.Calculate(unit);
+        return _possibleMovesCalculator.Calculate(unit, onlyKillMoves);
     }
 
     void ShowPossibeMoves(Unit unit)
     {
         HidePossibleMoves();
 
-        IEnumerable<Vector2Int> movesCoord = _possibleMovesCalculator.Calculate(unit);
+        ICollection<Vector2Int> movesCoord = _possibleMovesCalculator.Calculate(unit);
         
         foreach (Vector2Int coord in movesCoord)
         {
@@ -70,7 +70,8 @@ public class UnitUI : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (ChessBoard.WhoseMove == _unit.UnitTeam)
+        if (ChessBoard.WhoseMove == _unit.UnitTeam
+            && !_unit.Moving().IsMoving) // TODO: stinks
             ShowPossibeMoves(_unit);
     }
 

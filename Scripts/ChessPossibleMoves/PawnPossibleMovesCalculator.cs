@@ -5,12 +5,12 @@ public class PawnPossibleMovesCalculator : BasePossibleMovesCalculator
 {
     public PawnPossibleMovesCalculator(IGameBoard gameBoard) : base(gameBoard) { }
 
-    public override ICollection<Vector2Int> Calculate(Unit unit)
+    public override ICollection<Vector2Int> Calculate(Unit unit, bool onlyKillMoves)
     {
         ICollection<Vector2Int> possibleMoves = new List<Vector2Int>();
-
-        AddForwardMoves(unit, possibleMoves);
-        AddDiagonalMoves(unit, possibleMoves);
+        
+        if (!onlyKillMoves) AddForwardMoves(unit, possibleMoves);
+        AddDiagonalMoves(unit, possibleMoves, onlyKillMoves);
 
         return DeleteRestricted(unit, possibleMoves);
     }
@@ -31,15 +31,17 @@ public class PawnPossibleMovesCalculator : BasePossibleMovesCalculator
         }
     }
 
-    void AddDiagonalMoves(Unit unit, ICollection<Vector2Int> possibleMoves)
+    void AddDiagonalMoves(Unit unit, ICollection<Vector2Int> possibleMoves, bool onlyKillMoves)
     {
         Vector2Int forward = unit.Moving().GetPosition() + unit.Moving().GetForward();
         Vector2Int right = unit.Moving().GetRight();
 
         Vector2Int diagonalRight = forward + right;
-        AddMoveIfThereEnemyUnit(unit, diagonalRight, possibleMoves);
+        if (onlyKillMoves) possibleMoves.Add(diagonalRight);
+        else AddMoveIfThereEnemyUnit(unit, diagonalRight, possibleMoves);
 
         Vector2Int diagonalLeft = forward - right;
-        AddMoveIfThereEnemyUnit(unit, diagonalLeft, possibleMoves);
+        if (onlyKillMoves) possibleMoves.Add(diagonalLeft);
+        else AddMoveIfThereEnemyUnit(unit, diagonalLeft, possibleMoves);
     }
 }
